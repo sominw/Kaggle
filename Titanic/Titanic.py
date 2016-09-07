@@ -31,4 +31,6 @@ print ("----------------------------")
 train_DF = train_DF.drop(['PassengerId','Name','Ticket'], axis = 1, inplace = False)
 test_DF = test_DF.drop(['Name','Ticket'], axis = 1, inplace = False)
 
-sns.factorplot(x='Embarked',y='Survived', data=train_DF)
+sns.factorplot(x = 'Embarked', y = 'Survived', data=train_DF, size = 4, aspect = 5)
+sns.countplot(x = 'Embarked', data = train_DF)
+sns.countplot(x = 'Survived', hue = 'Embarked', data = train_DF)
