@@ -20,10 +20,15 @@ from sklearn.svm import SVC, LinearSVC
 from sklearn.ensemble import RandomForestClassifier
 
 #Fetch Data
-titanic_DF = pd.read_csv("/Users/sominwadhwa/Desktop/Kaggle/A journey through Titanic/train.csv", dtype = {"Age": np.float64},)
-titanic_testDF = pd.read_csv("/Users/sominwadhwa/Desktop/Kaggle/A journey through Titanic/test.csv", dtype = {"Age": np.float64}, )
+train_DF = pd.read_csv("/Users/sominwadhwa/Desktop/Kaggle/Titanic/train.csv", dtype = {"Age": np.float64}, )
+test_DF = pd.read_csv("/Users/sominwadhwa/Desktop/Kaggle/Titanic/test.csv", dtype = {"Age": np.float64}, )
 
-print (titanic_DF.head())  
-print (titanic_DF.info())
+print (train_DF.head())  
+print (test_DF.info())
 print ("----------------------------")
-print (titanic_testDF.info())
+
+#Dropping Unnecessary Data
+train_DF = train_DF.drop(['PassengerId','Name','Ticket'], axis = 1, inplace = False)
+test_DF = test_DF.drop(['Name','Ticket'], axis = 1, inplace = False)
+
+sns.factorplot(x='Embarked',y='Survived', data=train_DF)
