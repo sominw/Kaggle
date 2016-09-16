@@ -81,3 +81,10 @@ facet.add_legend()
 fig, axis1 = plt.subplots(1,1,figsize=(18,4))
 average_age = train_DF[["Age", "Survived"]].groupby(['Age'],as_index=False).mean()
 sns.barplot(x='Age', y='Survived', data=average_age)
+
+#Feature: Cabin
+# It has a lot of NaN values, so it won't cause a remarkable impact on prediction
+train_DF.drop("Cabin",axis=1,inplace=True)
+test_DF.drop("Cabin",axis=1,inplace=True)
+
+#Features Left to Examine: Sex, Family, Class
