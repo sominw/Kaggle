@@ -74,3 +74,10 @@ get_std_fare = DataFrame([survived_fare.std(), not_survived_fare.std()])
 #Plot
 train_DF['Fare'].plot(kind = 'hist', figsize = (15,3), bins = 100, xlim = (0,50))
 
+facet = sns.FacetGrid(train_DF, hue="Survived",aspect=4)
+facet.map(sns.kdeplot,'Age',shade= True)
+facet.set(xlim=(0, train_DF['Age'].max()))
+facet.add_legend()
+fig, axis1 = plt.subplots(1,1,figsize=(18,4))
+average_age = train_DF[["Age", "Survived"]].groupby(['Age'],as_index=False).mean()
+sns.barplot(x='Age', y='Survived', data=average_age)
