@@ -57,3 +57,20 @@ train_DF['Q'] = train_DF['Q'].astype(int)
 train_DF['S'] = train_DF['S'].astype(int)
 print (train_DF.head())
 
+#Feature: Fare 
+""" Since fare is one such obvious feature it is 
+safe to say to include in the feature without much
+thought """
+#Perform Cleanup
+test_DF['Fare'].fillna(test_DF['Fare'].median(), inplace = True)
+train_DF['Fare'] = train_DF['Fare'].astype(int)
+test_DF['Fare'] = test_DF['Fare'].astype(int)
+#Fetch Fare Information
+survived_fare = train_DF['Fare'][train_DF['Survived'] == 1]
+not_survived_fare = train_DF['Fare'][train_DF['Survived'] == 0]
+#Extract Metrics
+get_avg_fare = DataFrame([survived_fare.mean(), not_survived_fare.mean()])
+get_std_fare = DataFrame([survived_fare.std(), not_survived_fare.std()])
+#Plot
+train_DF['Fare'].plot(kind = 'hist', figsize = (15,3), bins = 100, xlim = (0,50))
+
