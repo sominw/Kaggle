@@ -139,3 +139,15 @@ sns.countplot(x = 'Pclass', data = train_DF, ax = ax1)
 sns.countplot(x = 'Survived', hue = 'Pclass', data = train_DF, ax = ax2)
 pclass_perc = train_DF[["Pclass", "Survived"]].groupby(['Pclass'],as_index=False).mean()
 sns.barplot(x = 'Pclass', y = 'Survived', data = pclass_perc, ax = ax3)
+
+#Dummies:
+pclass_dummies_train = pd.get_dummies(train_DF['Pclass'])
+pclass_dummies_train.columns = ['First Class', 'Second Class', 'Third Class']
+pclass_dummies_test = pd.get_dummies(test_DF['Pclass'])
+pclass_dummies_test.columns = ['First Class', 'Second Class', 'Third Class']
+
+train_DF.drop(['Pclass'], axis = 1, inplace = True)
+test_DF.drop(['Pclass'], axis = 1, inplace = True)
+
+train_DF = train_DF.join(pclass_dummies_train)
+test_DF = test_DF.join(pclass_dummies_test)
