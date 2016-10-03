@@ -154,3 +154,14 @@ test_DF.drop(['Pclass'], axis = 1, inplace = True)
 
 train_DF = train_DF.join(pclass_dummies_train)
 test_DF = test_DF.join(pclass_dummies_test)
+
+#MACHINE LEARING & TESTING
+X = train_DF.drop('Survived', axis = 1)
+Y = train_DF['Survived']
+X_test = test_DF.drop('PassengerId', axis = 1).copy()
+
+#Using Logistic Regression 
+logr = LogisticRegression()
+logr.fit(X,Y)
+Y_test = logr.predict(X_test)
+logr.score(X,Y)
