@@ -156,12 +156,25 @@ train_DF = train_DF.join(pclass_dummies_train)
 test_DF = test_DF.join(pclass_dummies_test)
 
 #MACHINE LEARING & TESTING
-X = train_DF.drop('Survived', axis = 1)
+X = train_DF.drop(['Survived'], axis = 1)
 Y = train_DF['Survived']
-X_test = test_DF.drop('PassengerId', axis = 1).copy()
+X_test = test_DF.drop(['PassengerId'], axis = 1).copy()
+
+
+#Using RandomForests (Accuracy Achieved = 96.4%)
+rf = RandomForestClassifier(n_estimators=100)
+rf.fit(X,Y)
+Y_test = rf.predict(X_test)
+rf.score(X,Y)
 
 #Using Logistic Regression 
 logr = LogisticRegression()
 logr.fit(X,Y)
 Y_test = logr.predict(X_test)
 logr.score(X,Y)
+
+coeff = DataFrame(train_DF.columns.delete(0))
+coeff.columns = ['Features']
+coeff['Coefficient Estimate'] = pd.Series(logr.coef_[0])
+
+coeff
