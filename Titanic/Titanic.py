@@ -131,3 +131,11 @@ sns.countplot(x = 'Person', data = train_DF, ax = ax1)
 
 person_survival = train_DF[['Person', 'Survived']].groupby(['Person'], as_index = False).mean()
 sns.barplot(x= 'Person', y = 'Survived', data = person_survival, ax = ax2, order=['male','female','child'])
+
+#PClass -- Very similar to 'Embarked'
+figure, (ax1,ax2, ax3) = plt.subplots(1,3,figsize=(15,5))
+sns.factorplot(x = 'Pclass', y = 'Survived', order = [1,2,3], data = train_DF, size = 4, aspect = 5)
+sns.countplot(x = 'Pclass', data = train_DF, ax = ax1)
+sns.countplot(x = 'Survived', hue = 'Pclass', data = train_DF, ax = ax2)
+pclass_perc = train_DF[["Pclass", "Survived"]].groupby(['Pclass'],as_index=False).mean()
+sns.barplot(x = 'Pclass', y = 'Survived', data = pclass_perc, ax = ax3)
