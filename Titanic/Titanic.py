@@ -130,7 +130,10 @@ fig, (ax1, ax2) = plt.subplots(1,2, figsize = (10,5))
 sns.countplot(x = 'Person', data = train_DF, ax = ax1)
 
 person_survival = train_DF[['Person', 'Survived']].groupby(['Person'], as_index = False).mean()
-sns.barplot(x= 'Person', y = 'Survived', data = person_survival, ax = ax2, order=['male','female','child'])
+sns.barplot(x= 'Person', y = 'Survived', data = person_survival, ax = ax2, order=['male','female','Child'])
+
+train_DF.drop(['Person'], axis = 1, inplace = True)
+test_DF.drop(['Person'], axis = 1, inplace = True)
 
 #PClass -- Very similar to 'Embarked'
 figure, (ax1,ax2, ax3) = plt.subplots(1,3,figsize=(15,5))
