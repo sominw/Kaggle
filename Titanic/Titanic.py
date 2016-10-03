@@ -20,8 +20,8 @@ from sklearn.svm import SVC, LinearSVC
 from sklearn.ensemble import RandomForestClassifier
 
 #Fetch Data
-train_DF = pd.read_csv("/Users/sominwadhwa/Desktop/Kaggle/Titanic/train.csv", dtype = {"Age": np.float64}, )
-test_DF = pd.read_csv("/Users/sominwadhwa/Desktop/Kaggle/Titanic/test.csv", dtype = {"Age": np.float64}, )
+train_DF = pd.read_csv("train.csv", dtype = {"Age": np.float64}, )
+test_DF = pd.read_csv("test.csv", dtype = {"Age": np.float64}, )
 
 print (train_DF.head())  
 print (test_DF.info())
@@ -83,8 +83,25 @@ average_age = train_DF[["Age", "Survived"]].groupby(['Age'],as_index=False).mean
 sns.barplot(x='Age', y='Survived', data=average_age)
 
 #Feature: Cabin
-# It has a lot of NaN values, so it won't cause a remarkable impact on prediction
 train_DF.drop("Cabin",axis=1,inplace=True)
 test_DF.drop("Cabin",axis=1,inplace=True)
 
-#Features Left to Examine: Sex, Family, Class
+#Family i.e Parch + Siblings
+train_DF['Family'] =  train_DF["Parch"] + train_DF["SibSp"]
+train_DF['Family'].loc[train_DF['Family'] > 0] = 1
+train_DF['Family'].loc[train_DF['Family'] == 0] = 0
+test_DF['Family'] =  test_DF["Parch"] + test_DF["SibSp"]
+test_DF['Family'].loc[test_DF['Family'] > 0] = 1
+test_DF['Family'].loc[test_DF['Family'] == 0] = 0
+
+
+train_DF.drop(["Parch", "SibSp"], axis = 1, inplace = True)
+test_DF.drop(["Parch", "SibSp"], axis = 1, inplace = True)
+
+fig, (ax1, ax2) = plt.subplots(1,2, figsize = (10,5))
+sns.countplot(x = 'Family', data = train_DF, ax = ax1)
+ax1.set_xticklabels(['w/ Family','w/o Family'], rotation =0)
+
+family_survival = train_DF[['Family', 'Survived']].groupby(['Family'], as_index = 0).mean()
+sns.barplot(x = 'Family', y = 'Survived', data = family_survival, ax = ax2)
+ax2.set_xticklabels(['w/ Family','w/o Family'], rotation =0)
