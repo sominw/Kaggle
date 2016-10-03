@@ -105,3 +105,29 @@ ax1.set_xticklabels(['w/ Family','w/o Family'], rotation =0)
 family_survival = train_DF[['Family', 'Survived']].groupby(['Family'], as_index = 0).mean()
 sns.barplot(x = 'Family', y = 'Survived', data = family_survival, ax = ax2)
 ax2.set_xticklabels(['w/ Family','w/o Family'], rotation =0)
+
+#Sex
+#Referred from peer solutions -- Classify into Child, Male & Female (Just generic thinking)
+def get_type(passenger):
+    age, sex = passenger
+    return 'Child' if age < 16 else sex
+train_DF['Person'] = train_DF[['Age', 'Sex']].apply(get_type, axis = 1)
+test_DF['Person'] = test_DF[['Age', 'Sex']].apply(get_type, axis = 1)
+
+train_DF.drop(['Sex'], axis = 1, inplace = True)
+test_DF.drop(['Sex'], axis = 1, inplace = True)
+
+person_dummies_train = pd.get_dummies(train_DF['Person'])
+person_dummies_train.columns = ['Child', 'Female', 'Male']
+
+person_dummies_test = pd.get_dummies(test_DF['Person'])
+person_dummies_test.columns = ['Child', 'Female', 'Male']
+
+train_DF = train_DF.join(person_dummies_train)
+test_DF = test_DF.join(person_dummies_test)
+
+fig, (ax1, ax2) = plt.subplots(1,2, figsize = (10,5))
+sns.countplot(x = 'Person', data = train_DF, ax = ax1)
+
+person_survival = train_DF[['Person', 'Survived']].groupby(['Person'], as_index = False).mean()
+sns.barplot(x= 'Person', y = 'Survived', data = person_survival, ax = ax2, order=['male','female','child'])
