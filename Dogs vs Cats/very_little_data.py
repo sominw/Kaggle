@@ -65,7 +65,7 @@ validation = test_data.flow_from_directory(
         batch_size=batch_size,
         target_size=(width,height))
 
-filepath = "weight-improv-{epoch:02d}-{accuracy:.2f}.hdf5"
+filepath = "weight-improv-{epoch:02d}.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='accuracy', verbose=1, save_best_only=True, mode = 'max')
 callbacks_list=[checkpoint]
 
