@@ -3,6 +3,7 @@ from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Dropout, Activation, Flatten, Dense
 from keras.callbacks import ModelCheckpoint
+import h5py
 from keras import backend as K
 import numpy as np
 
@@ -78,7 +79,7 @@ model.fit_generator(
         validation_steps = n_val // batch_size,
         callbacks= callbacks_list
         )
-model.save_weights('very_little_weights.h5')
+model.save_weights('very_little_weights.hdf5')
 
 
 
